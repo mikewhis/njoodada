@@ -10,7 +10,14 @@ interface Program {
   subtitle: string;
   description: string;
   features: string[];
-  image: any; // Adjust this type based on your image structure
+  image: ImageType;
+}
+
+interface ImageType {
+  asset: {
+    _id: string;
+    url: string;
+  };
 }
 
 async function getPrograms(): Promise<Program[]> {

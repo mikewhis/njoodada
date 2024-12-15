@@ -9,7 +9,14 @@ interface SuccessStory {
   name: string;
   quote: string;
   achievement: string;
-  image: any; // Adjust this type based on your image structure
+  image: ImageType;
+}
+
+interface ImageType {
+  asset: {
+    _id: string;
+    url: string;
+  };
 }
 
 async function getPageData(): Promise<{ stories: SuccessStory[]; stats: StatType[] }> {

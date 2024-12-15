@@ -13,7 +13,14 @@ interface BoardMember {
   name: string;
   role: string;
   bio: string;
-  image: any; // Adjust this type based on your image structure
+  image: ImageType;
+}
+
+interface ImageType {
+  asset: {
+    _id: string;
+    url: string;
+  };
 }
 
 export default async function AboutPage() {
