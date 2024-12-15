@@ -7,6 +7,15 @@ async function getBoardMembers() {
   return await client.fetch(boardMembersQuery);
 }
 
+// Define the BoardMember interface
+interface BoardMember {
+  _id: string;
+  name: string;
+  role: string;
+  bio: string;
+  image: any; // Adjust this type based on your image structure
+}
+
 export default async function AboutPage() {
   const boardMembers = await getBoardMembers();
 
@@ -58,7 +67,7 @@ export default async function AboutPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold text-primary mb-12 text-center">Our Board</h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {boardMembers.map((member: any) => (
+            {boardMembers.map((member: BoardMember) => (
               <div key={member._id} className="bg-white rounded-lg overflow-hidden shadow-sm">
                 <div className="relative h-64">
                   <Image

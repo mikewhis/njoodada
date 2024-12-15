@@ -2,8 +2,17 @@ import Image from 'next/image';
 import { client } from '@/sanity/lib/client';
 import { successStoriesQuery, impactStatsQuery } from '@/sanity/lib/queries';
 import { urlFor } from '@/sanity/lib/image';
+import { StatType } from '../types';
+// Define the SuccessStory interface
+interface SuccessStory {
+  _id: string;
+  name: string;
+  quote: string;
+  achievement: string;
+  image: any; // Adjust this type based on your image structure
+}
 
-async function getPageData() {
+async function getPageData(): Promise<{ stories: SuccessStory[]; stats: StatType[] }> {
   const [stories, stats] = await Promise.all([
     client.fetch(successStoriesQuery),
     client.fetch(impactStatsQuery)
@@ -37,7 +46,7 @@ export default async function SuccessStoriesPage() {
       <section className="section-padding">
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-2 gap-12">
-            {stories.map((story: any) => (
+            {stories.map((story: SuccessStory) => (
               <div key={story._id} className="bg-white rounded-lg shadow-lg overflow-hidden">
                 <div className="relative h-[300px]">
                   <Image
@@ -48,9 +57,9 @@ export default async function SuccessStoriesPage() {
                   />
                 </div>
                 <div className="p-6">
-                  <h2 className="text-2xl font-bold text-primary mb-4">{story.name}'s Story</h2>
+                  <h2 className="text-2xl font-bold text-primary mb-4">{story.name}&apos;s Story</h2>
                   <blockquote className="text-gray-600 italic mb-4">
-                    "{story.quote}"
+                    &quot;{story.quote}&quot;
                   </blockquote>
                   <p className="text-sm text-gray-500">Achievement: {story.achievement}</p>
                 </div>
@@ -65,7 +74,7 @@ export default async function SuccessStoriesPage() {
         <div className="max-w-7xl mx-auto text-center">
           <h2 className="text-3xl font-bold mb-12">Our Impact</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {stats.map((stat: any) => (
+            {stats.map((stat: StatType) => (
               <div key={stat._id}>
                 <div className="text-4xl font-bold mb-2">{stat.value}</div>
                 <p>{stat.label}</p>

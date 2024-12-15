@@ -3,7 +3,15 @@ import ContactForm from '@/components/ContactForm';
 import { client } from '@/sanity/lib/client';
 import { contactInfoQuery } from '@/sanity/lib/queries';
 
-async function getContactInfo() {
+// Define the ContactInfo interface
+interface ContactInfo {
+  phones: string[];
+  emails: string[];
+  address: string;
+  socialMedia: { [key: string]: string }; // Adjust this type based on your social media structure
+}
+
+async function getContactInfo(): Promise<ContactInfo> {
   return await client.fetch(contactInfoQuery);
 }
 
@@ -45,7 +53,7 @@ export default async function ContactPage() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-900">Phone</h3>
-                    {contactInfo.phones.map((phone: any, index: any) => (
+                    {contactInfo.phones.map((phone: string, index: number) => (
                       <p key={index} className="mt-1 text-gray-600">{phone}</p>
                     ))}
                   </div>
@@ -59,7 +67,7 @@ export default async function ContactPage() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-900">Email</h3>
-                    {contactInfo.emails.map((email: any, index: any) => (
+                    {contactInfo.emails.map((email: string, index: number) => (
                       <p key={index} className="mt-1 text-gray-600">{email}</p>
                     ))}
                   </div>

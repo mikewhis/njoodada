@@ -3,9 +3,10 @@ import { impactStatsQuery, partnersQuery } from '@/sanity/lib/queries';
 import HomeHero from '../components/HomeHero';
 import { urlFor } from '@/sanity/lib/image';
 import Image from 'next/image';
+import { StatType, PartnerType } from './types';
 
 async function getPageData() {
-  const [stats, partners] = await Promise.all([
+  const [stats, partners]: [StatType[], PartnerType[]] = await Promise.all([
     client.fetch(impactStatsQuery), 
     client.fetch(partnersQuery)
   ]);
@@ -46,7 +47,7 @@ export default async function Home() {
             {/* Stats Grid - Moved to bottom/right */}
             <div className="lg:w-1/2">
               <div className="grid grid-cols-2 gap-6">
-                {stats.slice(0, 4).map((stat: any) => (
+                {stats.slice(0, 4).map((stat: StatType) => (
                   <div key={stat._id} className="relative group overflow-hidden rounded-xl">
                     <div className="absolute inset-0 bg-primary/5 group-hover:bg-primary/10 transition-colors duration-300"></div>
                     <div className="relative p-6">
@@ -200,7 +201,7 @@ export default async function Home() {
             <p className="mt-4 text-lg text-gray-600">Collaborating with leading organizations to create sustainable impact</p>
           </div>
           <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
-            {partners.map((partner: any) => (
+            {partners.map((partner: PartnerType) => (
               <div key={partner._id} className="flex justify-center items-center">
                 <a
                   href={partner.website}

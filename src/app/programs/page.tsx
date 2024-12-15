@@ -3,7 +3,17 @@ import { client } from '@/sanity/lib/client';
 import { programsQuery } from '@/sanity/lib/queries';
 import { urlFor } from '@/sanity/lib/image';
 
-async function getPrograms() {
+// Define the Program interface
+interface Program {
+  _id: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  features: string[];
+  image: any; // Adjust this type based on your image structure
+}
+
+async function getPrograms(): Promise<Program[]> {
   return await client.fetch(programsQuery);
 }
 
@@ -34,7 +44,7 @@ export default async function ProgramsPage() {
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="space-y-24">
-            {programs.map((program: any, index: any) => (
+            {programs.map((program: Program, index: number) => (
               <div key={program._id} className={`flex flex-col ${index % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'} gap-16 items-center`}>
                 {/* Image Side */}
                 <div className="w-full lg:w-1/2">
@@ -56,7 +66,7 @@ export default async function ProgramsPage() {
                   </div>
                   <p className="text-gray-600 text-lg">{program.description}</p>
                   <ul className="space-y-3 text-gray-600">
-                    {program.features.map((feature: any, idx: any) => (
+                    {program.features.map((feature: string, idx: number) => (
                       <li key={idx} className="flex items-start">
                         <span className="mr-3 text-primary">•</span>
                         <span>{feature}</span>
